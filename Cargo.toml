@@ -1,0 +1,7 @@
+[package]
+name = "iota_example"
+version = "0.1.0"
+authors = ["sigder"]
+edition = "2018"
+
+[dependencies]
