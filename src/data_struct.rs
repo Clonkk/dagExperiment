@@ -111,6 +111,9 @@ impl Graph {
         assert_eq!(num_nodes + 1, self.nodes.len());
     }
 
+    // Another statistics
+    // Other interesting thing would to determine the sub-graph that is a transitive reduction
+    // Is entropy formulas for DAG graph useful to calculate transations ?
     pub fn avg_depth_of_leaves(&mut self) -> f32 {
         let mut sum_leaf_depth: u32 = 0;
         for n in 1..self.nodes.len() {
