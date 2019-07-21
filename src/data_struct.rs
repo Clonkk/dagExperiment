@@ -8,6 +8,7 @@ struct Node {
     timestamp: u64,
 
     // These 2 vectors represent the edges of the node in both direction
+    // Storing the edge of the graph in the node was easier than having 2 Vec in Graph
     parents: Vec<u32>,
     children: Vec<u32>,
 }
@@ -182,21 +183,22 @@ impl Graph {
         let mut d_vec: Vec<u32> = Vec::new();
         if parents.len() != 0 {
             let par = parents.clone();
-            // println!("{:?} : {}", parents, node_id);
             for p in par {
                 let d = Graph::get_depth(nodes, p) + 1;
                 d_vec.push(d);
             }
         }
-        // println!("d_vec={:?}", d_vec);
-        let mut d = 0;
+
+        // Keep min value
+        let mut depth = 0;
         for d_val in d_vec {
-            if d == 0 {
-                d = d_val;
-            } else if d_val < d {
-                d = d_val;
+            if depth == 0 {
+                depth = d_val;
+            } else if d_val < depth {
+                depth = d_val;
             }
         }
-        d
+        // return depth
+        depth
     }
 }
