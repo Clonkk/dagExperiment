@@ -111,19 +111,19 @@ impl Graph {
         assert_eq!(num_nodes + 1, self.nodes.len());
     }
 
-    pub fn avg_depth_of_leaf(&mut self) -> f32 {
+    pub fn avg_depth_of_leaves(&mut self) -> f32 {
         let mut sum_leaf_depth: u32 = 0;
         for n in 1..self.nodes.len() {
             if self.nodes[n].children.len() == 0 {
                 sum_leaf_depth = sum_leaf_depth + Graph::get_depth(&mut self.nodes, n as u32);
             }
         }
-        let avg: f32 = sum_leaf_depth as f32 / (self.get_num_of_leaf() as f32);
+        let avg: f32 = sum_leaf_depth as f32 / (self.get_num_of_leaves() as f32);
         avg
     }
 
     // Get number of leaf in the graph
-    fn get_num_of_leaf(&self) -> u32 {
+    fn get_num_of_leaves(&self) -> u32 {
         let mut num_leaf = 0;
         for n in 1..self.nodes.len() {
             if self.nodes[n].children.len() == 0 {
