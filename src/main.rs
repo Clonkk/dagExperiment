@@ -17,6 +17,6 @@ fn main() {
     let avg_ref = graph.get_avg_reference_per_node();
     println!("avg_ref={}", avg_ref);
 
-    let num_leaf = graph.get_num_of_leaf();
-    println!("num_leaf={}", num_leaf);
+    let avg_depth_of_leaf = graph.avg_depth_of_leaf();
+    println!("avg_depth_of_leaf={}", avg_depth_of_leaf);
 }
