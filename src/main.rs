@@ -4,7 +4,7 @@ use data_struct::Graph;
 fn main() {
     println!("Hello, world!");
     let mut graph: Graph = Graph::new();
-    let filename = "database4.txt".to_string();
+    let filename = "database.txt".to_string();
     graph.parse(filename);
     graph.show();
 
