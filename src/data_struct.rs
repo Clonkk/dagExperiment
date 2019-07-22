@@ -131,6 +131,9 @@ impl Graph {
 
     // There is probably a more efficient way to calculate the minimal depth between 2 nodes
     pub fn get_depth_between_nodes(&mut self, node1_id: u32, node2_id: u32) -> Result<u32, u32> {
+        // Assert nodes exists
+        assert(node1_id <= self.nodes.len());
+        assert(node2_id <= self.nodes.len());
         // Found the node
         if node1_id == node2_id {
             // Return 0 to distance from itself since we know graph are acyclic
