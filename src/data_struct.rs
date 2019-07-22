@@ -111,10 +111,73 @@ impl Graph {
         assert_eq!(num_nodes + 1, self.nodes.len());
     }
 
-    // Another statistics
-    // Other interesting thing would to determine the sub-graph that is a transitive reduction
+    // determine the adjacency matrix
+    // This matrix can be used for accessibility problems
+    pub fn get_graph_matrix(&mut self) -> Vec<Vec<u32>> {
+        let mut access_matrix : Vec<Vec<u32>> = Vec::new();
+        for i in 0..self.nodes.len() {
+            let mut column : Vec<u32> = Vec::new();
+            for j in 0..self.nodes.len() as u32 {
+                if self.nodes[i].children.contains(&j) {
+                    column.push(1);
+                } else {
+                    column.push(0);
+                }
+            }
+            access_matrix.push(column);
+        }
+        access_matrix
+    }
+
+    // There is probably a more efficient way to calculate the minimal depth between 2 nodes
+    pub fn get_depth_between_nodes(&mut self, node1_id : u32, node2_id : u32) -> Result<u32, u32> {
+        if node1_id == node2_id {
+            // Return 0 to distance from itself since we know graph are acyclic
+            return Ok(0)
+        }
+
+        let mut d_vec: Vec<Result<u32,u32>> = Vec::new();
+
+        // Avoid borrowing children as we don't actually need to modify it
+        let children = self.nodes[node1_id as usize].children.clone();
+
+        // If children =>keep going
+        if children.len() != 0 {
+            // If we find node2 in children => End recursion with a +1 in path
+            if children.contains(&node2_id) {
+                return Ok(1);
+            }
+            // Else evaluate children
+            else {
+                for c in children {
+                    let d = self.get_depth_between_nodes(c, node2_id);
+                    match d {
+                        Ok(d) => d_vec.push(Ok(d+1)),
+                        Err(_d) => d_vec.push(Err(0))
+                    }
+                }
+            }
+        }
+
+        let mut distance : Result<u32, u32> = Err(0);
+        for d_val in d_vec {
+            if distance.is_ok() {
+                if d_val.is_ok() {
+                    distance = Ok(min(distance.unwrap(), d_val.unwrap()));
+                }
+            } else {
+                if d_val.is_ok() {
+                    distance = d_val;
+                }
+            }
+        }
+
+        // return distance
+        distance
+    }
+
     // Is entropy formulas for DAG graph useful to calculate transations ?
-    pub fn avg_depth_of_leaves(&mut self) -> f32 {
+    pub fn get_avg_depth_of_leaves(&mut self) -> f32 {
         let mut sum_leaf_depth: u32 = 0;
         for n in 1..self.nodes.len() {
             if self.nodes[n].children.len() == 0 {
@@ -187,7 +250,7 @@ impl Graph {
                 b = "",
                 filler = 6,
                 children = node.children
-            );
+                );
         }
     }
 

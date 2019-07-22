@@ -4,7 +4,7 @@ use data_struct::Graph;
 fn main() {
     println!("Hello, world!");
     let mut graph: Graph = Graph::new();
-    let filename = "database4.txt".to_string();
+    let filename = "database1.txt".to_string();
     graph.parse(filename);
     graph.show();
 
@@ -17,6 +17,22 @@ fn main() {
     let avg_ref = graph.get_avg_reference_per_node();
     println!("avg_ref={}", avg_ref);
 
-    let avg_depth_of_leaves = graph.avg_depth_of_leaves();
+    let avg_depth_of_leaves = graph.get_avg_depth_of_leaves();
     println!("avg_depth_of_leaves={}", avg_depth_of_leaves);
+
+    let access_matrix = graph.get_graph_matrix();
+    for v in access_matrix {
+        println!("{:?}", v);
+    }
+
+    let distance  =graph.get_depth_between_nodes(2,4);
+    println!("distance 2;4 = {:?}", distance);
+    let distance  =graph.get_depth_between_nodes(1,4);
+    println!("distance 1;4 = {:?}", distance);
+    let distance  =graph.get_depth_between_nodes(2,6);
+    println!("distance 2;6 = {:?}", distance);
+    let  distance  =graph.get_depth_between_nodes(0,5);
+    println!("distance 0;5 = {:?}", distance);
+    let distance  =graph.get_depth_between_nodes(4,6);
+    println!("distance 4;6 = {:?}", distance);
 }
