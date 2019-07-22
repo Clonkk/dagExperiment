@@ -111,12 +111,12 @@ impl Graph {
         assert_eq!(num_nodes + 1, self.nodes.len());
     }
 
-    // determine the adjacency matrix
+    // Determine the adjacency matrix
     // This matrix can be used for accessibility problems
     pub fn get_graph_matrix(&mut self) -> Vec<Vec<u32>> {
-        let mut access_matrix : Vec<Vec<u32>> = Vec::new();
+        let mut access_matrix: Vec<Vec<u32>> = Vec::new();
         for i in 0..self.nodes.len() {
-            let mut column : Vec<u32> = Vec::new();
+            let mut column: Vec<u32> = Vec::new();
             for j in 0..self.nodes.len() as u32 {
                 if self.nodes[i].children.contains(&j) {
                     column.push(1);
@@ -130,17 +130,16 @@ impl Graph {
     }
 
     // There is probably a more efficient way to calculate the minimal depth between 2 nodes
-    pub fn get_depth_between_nodes(&mut self, node1_id : u32, node2_id : u32) -> Result<u32, u32> {
+    pub fn get_depth_between_nodes(&mut self, node1_id: u32, node2_id: u32) -> Result<u32, u32> {
+        // Found the node
         if node1_id == node2_id {
             // Return 0 to distance from itself since we know graph are acyclic
-            return Ok(0)
+            return Ok(0);
         }
-
-        let mut d_vec: Vec<Result<u32,u32>> = Vec::new();
-
+        // Vector of result
+        let mut d_vec: Vec<Result<u32, u32>> = Vec::new();
         // Avoid borrowing children as we don't actually need to modify it
         let children = self.nodes[node1_id as usize].children.clone();
-
         // If children =>keep going
         if children.len() != 0 {
             // If we find node2 in children => End recursion with a +1 in path
@@ -152,14 +151,15 @@ impl Graph {
                 for c in children {
                     let d = self.get_depth_between_nodes(c, node2_id);
                     match d {
-                        Ok(d) => d_vec.push(Ok(d+1)),
-                        Err(_d) => d_vec.push(Err(0))
+                        Ok(d) => d_vec.push(Ok(d + 1)),
+                        Err(_d) => d_vec.push(Err(0)),
                     }
                 }
             }
         }
-
-        let mut distance : Result<u32, u32> = Err(0);
+        // Find the shortest Ok() distance
+        // Will return an Err(0) if there is no Ok() distance
+        let mut distance: Result<u32, u32> = Err(0);
         for d_val in d_vec {
             if distance.is_ok() {
                 if d_val.is_ok() {
@@ -171,8 +171,7 @@ impl Graph {
                 }
             }
         }
-
-        // return distance
+        // Return distance : Result<u32,u32>
         distance
     }
 
@@ -250,7 +249,7 @@ impl Graph {
                 b = "",
                 filler = 6,
                 children = node.children
-                );
+            );
         }
     }
 

@@ -4,7 +4,7 @@ use data_struct::Graph;
 fn main() {
     println!("Hello, world!");
     let mut graph: Graph = Graph::new();
-    let filename = "database1.txt".to_string();
+    let filename = "database4.txt".to_string();
     graph.parse(filename);
     graph.show();
 
@@ -25,14 +25,14 @@ fn main() {
         println!("{:?}", v);
     }
 
-    let distance  =graph.get_depth_between_nodes(2,4);
+    let distance = graph.get_depth_between_nodes(2, 4);
     println!("distance 2;4 = {:?}", distance);
-    let distance  =graph.get_depth_between_nodes(1,4);
+    let distance = graph.get_depth_between_nodes(1, 4);
     println!("distance 1;4 = {:?}", distance);
-    let distance  =graph.get_depth_between_nodes(2,6);
+    let distance = graph.get_depth_between_nodes(2, 6);
     println!("distance 2;6 = {:?}", distance);
-    let  distance  =graph.get_depth_between_nodes(0,5);
+    let distance = graph.get_depth_between_nodes(0, 5);
     println!("distance 0;5 = {:?}", distance);
-    let distance  =graph.get_depth_between_nodes(4,6);
+    let distance = graph.get_depth_between_nodes(4, 6);
     println!("distance 4;6 = {:?}", distance);
 }
